@@ -1,0 +1,34 @@
+digraph G {
+edge [dir = both];node [shape = box];
+S0 [xlabel="S0", label="Idle{T0;}
+TL-T0==0
+ NORMAL"];
+S1 [xlabel="S1", label="HighSpeedConnection{T0;}
+TL-T0==0
+ NORMAL"];
+S2 [xlabel="S2", label="LowSpeedConnection{T0;}Warning{T0;}
+TL-T0==0
+ UNDESIRED"];
+S3 [xlabel="S3", label="DetectFail{T1;}Warning{T0;}
+TL-T0-0.05>=0 && TL-T0-0.12<=0 && TL-T1==0
+ UNDESIRED"];
+S4 [xlabel="S4", label="StartRecovery{T1;}Warning{T0;}
+TL-T0-0.15>=0 && TL-T0-0.82<=0 && TL-T1==0
+ RECOVERY"];
+S5 [xlabel="S5", label="SearchAlternativeProtocol{T1;}Warning{T0;}
+TL-T0-0.35>=0 && TL-T0-1.32<=0 && TL-T1==0
+ RECOVERY"];
+S6 [xlabel="S6", label="ConnectionRecovered{T1;}Warning{T0;}
+TL-T0-1.35>=0 && TL-T0-5.32<=0 && TL-T1==0
+ NORMAL"];
+S0->S1[arrowtail=dot label="StartConnection\n0.1-0.5"];
+S0->S0[arrowtail=dot label="KeepIdle\n0.5-0.5"];
+S1->S0[arrowtail=dot label="CloseConnection\n1.3-1.6"];
+S1->S1[arrowtail=dot label="SendData\n0.5-0.5"];
+S1->S2[arrowtail=dot label="Interference\n1.0-2.0"];
+S2->S3[arrowtail=dot label="ConnectionError\n0.05-0.12"];
+S3->S4[arrowtail=dot label="RecoveryReq\n0.1-0.7"];
+S4->S5[arrowtail=dot label="RecoveryAssisment\n0.2-0.5"];
+S5->S6[arrowtail=dot label="ProtocolFound\n1.0-4.0"];
+S6->S1[arrowtail=dot label="LinkRecovered\n0.5-0.7"];
+}
